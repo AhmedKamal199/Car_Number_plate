@@ -15,6 +15,8 @@ from pygame.locals import *
 import os
 import subprocess
 
+#lcd display
+import lcddriver # *****
 
 ####sevol control####
 import sys
@@ -29,15 +31,17 @@ import subprocess
 # Set for broadcom numbering so that GPIO# can be used as reference
 GPIO.setmode(GPIO.BCM)  
 
+LCD = lcddriver.lcd()
+
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ##IR sersor signal input   
 GPIO.setup(19, GPIO.IN)
-GPIO.setup(26, GPIO.IN)
+#GPIO.setup(26, GPIO.IN)  # Not needed 
 
-camera = PiCamera()
-
+#camera = PiCamera()
+camera = cv.VideoCapture(0, cv.CAP_DSHOW) #captureDevice = camera   
 
 os.putenv('SDL_VIDEODRIVER', 'fbcon') # Display on piTFT
 os.putenv('SDL_FBDEV', '/dev/fb1')
@@ -60,15 +64,22 @@ my_font = pygame.font.Font(None,25)
 
 #functions
 def imageCap():
-  camera.resolution = (2592, 1944) 
+  #camera.resolution = (2592, 1944) 
   #camera.rotation=180
-  camera.framerate = 15
-  camera.start_preview()
-  camera.brightness = 65#default50
-  camera.rotation=0
+  #camera.framerate = 15
+  #camera.start_preview()
+  #camera.brightness = 65#default50
+  #camera.rotation=0
+  ret,frame = camera.read()
+  if not ret:
+        print("Error")
   time.sleep(2)
-  camera.capture('image.jpg')
-  camera.stop_preview()
+  flag = True
+  while flag: 
+    cv.imwrite("image.jpg", frame)
+    time.sleep(2)
+    flag = False
+  #camera.stop_preview()
 
 
 
@@ -250,8 +261,8 @@ def image_resize(filename, mwidth, mheight):
     new_im.save('display.jpg')
     new_im.close()
 
-def servoControl():
-  pi_hw = pigpio.pi()  # connect to pi gpio daemon
+def displayControl():
+ """ pi_hw = pigpio.pi()  # connect to pi gpio daemon
   up_t=0.00225 #pulse duration
   T=up_t+0.02 #1 period time
   f=1/T #46.51Hz
@@ -261,7 +272,7 @@ def servoControl():
   pi_hw.hardware_PWM(13,0,0)
 
 
-  time_servo=time.time()
+  time_servo=time.time()#"""
   flag=1
   count=0
   try:
@@ -288,11 +299,12 @@ def servoControl():
     
       if((text=='KAU 3881') or (text=='FBR 1449')): #test whether match with the one in database
         display="Allow Pass"
+        LCD.lcd_display_string("Allow Pass", 1)
         text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
         pygame.display.flip()#dispaly on actual screen 
-        if(count==0):     
+      """  if(count==0):     
           t=0.00125
           T=t+0.02
           frequency=1/T
@@ -301,9 +313,9 @@ def servoControl():
           pi_hw.hardware_PWM(13,f,dc)
           time.sleep(3)
           pi_hw.hardware_PWM(13,0,0)
-          count=1
+          count=1 #"""
 
-        if ( not GPIO.input(26) ):
+     """   if ( not GPIO.input(26) ):
           print (" ") 
           print "IR sensor2!"
           t=0.00225
@@ -313,7 +325,7 @@ def servoControl():
           pi_hw.hardware_PWM(13,f,dc)
           time.sleep(3)
           pi_hw.hardware_PWM(13,0,0)
-          flag=False
+          flag=False #"""
 
       
       elif ( not GPIO.input(27) ):
@@ -323,6 +335,7 @@ def servoControl():
 
       else:
         display="Not Allow"
+        LCD.lcd_display_string("Not Allow", 1)
         text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
@@ -336,7 +349,7 @@ def servoControl():
   except KeyboardInterrupt:
       pass
 
-  pi_hw.stop() #close pi gpio DMA resources
+  #pi_hw.stop() #close pi gpio DMA resources
 
 #######################################################################################
 
@@ -371,7 +384,7 @@ while flag:
         text=text.replace("\n", "")
         f.close()
 
-        servoControl()  #lift up servo if number plate is mach
+        displayControl()  #lift up servo if number plate is mach
                         #display not allow if number plate not match
 
 
