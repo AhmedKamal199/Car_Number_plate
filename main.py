@@ -25,6 +25,11 @@ import pigpio
 #run cmd
 import subprocess
 
+# Plate databases [Masta]
+licensedList = ["123456", "654624", "213456", "2345653"]
+stolenList = ["626233", "234324", "546546", "413462"]
+unLicensedList = ["6161", "1251", "6316", "134135"]
+
 ######################################################################################
 
 #initialize
@@ -38,7 +43,10 @@ GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ##IR sersor signal input   
 GPIO.setup(19, GPIO.IN)
-#GPIO.setup(26, GPIO.IN)  # Not needed 
+
+GPIO.setup(16, GPIO.OUT)   #Green_led 
+GPIO.setup(20, GPIO.OUT)   #red_led  
+GPIO.setup(21, GPIO.OUT)   #Yellow_led
 
 #camera = PiCamera()
 camera = cv.VideoCapture(0, cv.CAP_DSHOW) #captureDevice = camera   
@@ -297,9 +305,10 @@ def displayControl():
       screen.blit(imDisplay, imRec) # Combine surface with workspace surface
       
     
-      if((text=='KAU 3881') or (text=='FBR 1449')): #test whether match with the one in database
+      if(text in licensedList): #test whether match with the one in database
         display="Allow Pass"
         LCD.lcd_display_string("Allow Pass", 1)
+        GPIO.output(16, 1)
         text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
@@ -333,13 +342,26 @@ def displayControl():
           print "Button 27 has been pressed"
           flag=False
 
-      else:
+      elif(text in unLicensedList):
         display="Not Allow"
         LCD.lcd_display_string("Not Allow", 1)
+        GPIO.output(20, 1)
+        LCD.lcd_display_string("Unlicensed Car", 2) 
         text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
         pygame.display.flip()#dispaly on actual screen
+           
+        elif(text in stolenList):
+          display="Not Allow"
+          LCD.lcd_display_string("Not Allow", 1)
+          GPIO.output(20, 1)
+          LCD.lcd_display_string("Stolen Car", 2) 
+          GPIO.output(21, 1)
+          text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
+          rect = text_surface.get_rect(center=(160,210))
+          screen.blit(text_surface, rect)
+          pygame.display.flip()#dispaly on actual screen
         if((time.time()-time_servo)>5):
           flag=False
 
