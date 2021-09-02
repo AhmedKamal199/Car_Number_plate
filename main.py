@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-from picamera import PiCamera
+#from picamera import PiCamera
 from time import sleep
 from PIL import Image
 
@@ -19,8 +19,8 @@ import subprocess
 import lcddriver # *****
 
 ####sevol control####
-import sys
-import pigpio
+#import sys
+#import pigpio
 
 #run cmd
 import subprocess
