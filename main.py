@@ -28,7 +28,7 @@ import subprocess
 # Plate databases [Masta]
 licensedList = ["123456", "654624", "213456", "2345653"]
 stolenList = ["626233", "234324", "546546", "413462"]
-unLicensedList = ["6161", "1251", "6316", "134135"]
+#unLicensedList = ["6161", "1251", "6316", "134135"]
 
 ######################################################################################
 
@@ -308,7 +308,7 @@ def displayControl():
       if(text in licensedList): #test whether match with the one in database
         display="Allow Pass"
         LCD.lcd_display_string("Allow Pass", 1)
-        GPIO.output(16, 1)
+        GPIO.output(16, 1)  #Green Led
         text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
@@ -342,22 +342,22 @@ def displayControl():
           print "Button 27 has been pressed"
           flag=False
 
-      elif(text in unLicensedList):
-        display="Not Allow"
-        LCD.lcd_display_string("Not Allow", 1)
-        GPIO.output(20, 1)
-        LCD.lcd_display_string("Unlicensed Car", 2) 
-        text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
-        rect = text_surface.get_rect(center=(160,210))
-        screen.blit(text_surface, rect)
-        pygame.display.flip()#dispaly on actual screen
            
         elif(text in stolenList):
           display="Not Allow"
           LCD.lcd_display_string("Not Allow", 1)
-          GPIO.output(20, 1)
           LCD.lcd_display_string("Stolen Car", 2) 
-          GPIO.output(21, 1)
+          GPIO.output(21, 1)   # Yellow Led
+          text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
+          rect = text_surface.get_rect(center=(160,210))
+          screen.blit(text_surface, rect)
+          pygame.display.flip()#dispaly on actual screen
+          
+        else:
+          display="Not Allow"
+          LCD.lcd_display_string("Not Allow", 1)
+          GPIO.output(20, 1)  # Red Led
+          LCD.lcd_display_string("Unlicensed Car", 2) 
           text_surface = my_font.render(display, True, WHITE)#display Left servo History coloum
           rect = text_surface.get_rect(center=(160,210))
           screen.blit(text_surface, rect)
