@@ -270,19 +270,19 @@ def image_resize(filename, mwidth, mheight):
     new_im.close()
 
 def displayControl():
- """ pi_hw = pigpio.pi()  # connect to pi gpio daemon
-  up_t=0.00225 #pulse duration
-  T=up_t+0.02 #1 period time
-  f=1/T #46.51Hz
-  dc=(up_t/T)*1000000
-  pi_hw.hardware_PWM(13,f,dc)
-  time.sleep(3)
-  pi_hw.hardware_PWM(13,0,0)
-
-
-  time_servo=time.time()#"""
   flag=1
   count=0
+  #pi_hw = pigpio.pi()  # connect to pi gpio daemon
+  #up_t=0.00225 #pulse duration
+  #T=up_t+0.02 #1 period time
+  #f=1/T #46.51Hz
+  #dc=(up_t/T)*1000000
+  #pi_hw.hardware_PWM(13,f,dc)
+  #time.sleep(3)
+  #pi_hw.hardware_PWM(13,0,0)
+  #time_servo=time.time()#
+  #flag=1
+  #count=0  
   try:
     while flag:
       time.sleep(0.2)
@@ -313,37 +313,37 @@ def displayControl():
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
         pygame.display.flip()#dispaly on actual screen 
-      """  if(count==0):     
-          t=0.00125
-          T=t+0.02
-          frequency=1/T
-          dc=(t/T)*1000000
-          #p.ChangeDutyCycle(dc)
-          pi_hw.hardware_PWM(13,f,dc)
-          time.sleep(3)
-          pi_hw.hardware_PWM(13,0,0)
-          count=1 #"""
+           #  """  if(count==0):     
+        # t=0.00125
+           #  T=t+0.02
+           #   frequency=1/T
+           #  dc=(t/T)*1000000
+           # #p.ChangeDutyCycle(dc)
+            #pi_hw.hardware_PWM(13,f,dc)
+           #time.sleep(3)
+           #pi_hw.hardware_PWM(13,0,0)
+           #count=1 #"""
 
-     """   if ( not GPIO.input(26) ):
-          print (" ") 
-          print "IR sensor2!"
-          t=0.00225
-          T=t+0.02 
-          frequency=1/T
-          dc=(t/T)*1000000
-          pi_hw.hardware_PWM(13,f,dc)
-          time.sleep(3)
-          pi_hw.hardware_PWM(13,0,0)
-          flag=False #"""
+        #if ( not GPIO.input(26) ):
+          #print (" ") 
+          #print "IR sensor2!"
+          #t=0.00225
+          #T=t+0.02 
+          #frequency=1/T
+          #dc=(t/T)*1000000
+          #pi_hw.hardware_PWM(13,f,dc)
+          #time.sleep(3)
+          #pi_hw.hardware_PWM(13,0,0)
+          #flag=False #"""
 
       
       elif ( not GPIO.input(27) ):
           print (" ") 
-          print "Button 27 has been pressed"
+          print ("Button 27 has been pressed")
           flag=False
 
            
-        elif(text in stolenList):
+      elif(text in stolenList):
           display="Not Allow"
           LCD.lcd_display_string("Not Allow", 1)
           LCD.lcd_display_string("Stolen Car", 2) 
@@ -353,7 +353,7 @@ def displayControl():
           screen.blit(text_surface, rect)
           pygame.display.flip()#dispaly on actual screen
           
-        else:
+      else:
           display="Not Allow"
           LCD.lcd_display_string("Not Allow", 1)
           GPIO.output(20, 1)  # Red Led
@@ -362,7 +362,7 @@ def displayControl():
           rect = text_surface.get_rect(center=(160,210))
           screen.blit(text_surface, rect)
           pygame.display.flip()#dispaly on actual screen
-        if((time.time()-time_servo)>5):
+      if((time.time()-time_servo)>5):
           flag=False
 
         
@@ -389,7 +389,7 @@ while flag:
 
     if ( not GPIO.input(19) ):#when button pressed pin connected to ground, GPIO.input(17)=0;
         print (" ") 
-        print "IR sensor1!"
+        print ("IR sensor1!")
         imageCap()
         imageProcess() #start_time here
         correctSkew()
@@ -397,7 +397,7 @@ while flag:
         #use command line ro do ocr
         cmd="tesseract output2.jpg file -l eng -psm 7" 
         #english  single line
-        print subprocess.check_output(cmd, shell=True)
+        print (subprocess.check_output(cmd, shell=True))
         #monitor the image processing time
         #print ("time for image processing and recognition is:" + str(time.time()-start_time))
 
@@ -415,7 +415,7 @@ while flag:
                                                                                                                 
     if ( not GPIO.input(27) ):
         print (" ") 
-        print "Button 27 has been pressed system out"
+        print ("Button 27 has been pressed system out")
         flag=False
 
 
