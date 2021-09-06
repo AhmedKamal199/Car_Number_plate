@@ -48,8 +48,8 @@ GPIO.setup(16, GPIO.OUT)   #Green_led
 GPIO.setup(20, GPIO.OUT)   #red_led  
 GPIO.setup(21, GPIO.OUT)   #Yellow_led
 
-#camera = PiCamera()
-camera = cv.VideoCapture(0, cv.CAP_DSHOW) #captureDevice = camera   
+camera = PiCamera()
+#camera = cv.VideoCapture(0, cv.CAP_DSHOW) #captureDevice = camera   
 
 os.putenv('SDL_VIDEODRIVER', 'fbcon') # Display on piTFT
 os.putenv('SDL_FBDEV', '/dev/fb1')
