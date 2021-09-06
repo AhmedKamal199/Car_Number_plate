@@ -263,17 +263,17 @@ def image_resize(filename, mwidth, mheight):
     new_im.close()
 
 def displayControl():
- """ pi_hw = pigpio.pi()  # connect to pi gpio daemon
-  up_t=0.00225 #pulse duration
-  T=up_t+0.02 #1 period time
-  f=1/T #46.51Hz
-  dc=(up_t/T)*1000000
-  pi_hw.hardware_PWM(13,f,dc)
-  time.sleep(3)
-  pi_hw.hardware_PWM(13,0,0)
+  #pi_hw = pigpio.pi()  # connect to pi gpio daemon
+  #up_t=0.00225 #pulse duration
+  #T=up_t+0.02 #1 period time
+  #f=1/T #46.51Hz
+  #dc=(up_t/T)*1000000
+  #pi_hw.hardware_PWM(13,f,dc)
+  #time.sleep(3)
+  #pi_hw.hardware_PWM(13,0,0)
 
 
-  time_servo=time.time()#"""
+  #time_servo=time.time()#
   flag=1
   count=0
   try:
@@ -306,29 +306,7 @@ def displayControl():
         rect = text_surface.get_rect(center=(160,210))
         screen.blit(text_surface, rect)
         pygame.display.flip()#dispaly on actual screen 
-      """  if(count==0):     
-          t=0.00125
-          T=t+0.02
-          frequency=1/T
-          dc=(t/T)*1000000
-          #p.ChangeDutyCycle(dc)
-          pi_hw.hardware_PWM(13,f,dc)
-          time.sleep(3)
-          pi_hw.hardware_PWM(13,0,0)
-          count=1 #"""
-
-     """   if ( not GPIO.input(26) ):
-          print (" ") 
-          print "IR sensor2!"
-          t=0.00225
-          T=t+0.02 
-          frequency=1/T
-          dc=(t/T)*1000000
-          pi_hw.hardware_PWM(13,f,dc)
-          time.sleep(3)
-          pi_hw.hardware_PWM(13,0,0)
-          flag=False #"""
-
+     
       
       elif ( not GPIO.input(27) ):
           print (" ") 
