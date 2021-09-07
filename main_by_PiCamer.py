@@ -337,8 +337,8 @@ def displayControl():
           rect = text_surface.get_rect(center=(160,210))
           screen.blit(text_surface, rect)
           pygame.display.flip()#dispaly on actual screen
-          if((time.time()-time_servo)>5):
-            flag=False
+          #if((time.time()-time_servo)>5):
+            #flag=False
 
         
     screen.fill(BLACK) # Erase the Work space
